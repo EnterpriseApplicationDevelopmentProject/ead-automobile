@@ -1,5 +1,7 @@
 package com.example.ead_backend.model.enums;
 
-public class ServiceStatus {
-
+public enum ServiceStatus {
+    ACTIVE,
+    INACTIVE,
+    DISCONTINUED
 }
