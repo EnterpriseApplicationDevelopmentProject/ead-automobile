@@ -1,7 +1,8 @@
 package com.example.ead_backend.model.entity;
 
+import org.springframework.data.annotation.Id;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -13,10 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "Appointment")
-public class Appointment {
+@Table(name = "Project")
+public class Project {
     @Id
-    private String appointmentId;
+    private String projectId;
     @ManyToOne
     @JoinColumn(name = "employeeId", nullable = false)
     private EmployeeEntity employee;
