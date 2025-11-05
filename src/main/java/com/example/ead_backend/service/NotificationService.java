@@ -34,4 +34,33 @@ public interface NotificationService {
      * @param notificationId the notification ID
      */
     void markAsRead(Long notificationId);
+
+    /**
+     * Get unread notifications for a user.
+     *
+     * @param userId the user ID
+     * @return list of unread notification DTOs
+     */
+    List<NotificationDTO> getUnreadNotifications(Long userId);
+
+    /**
+     * Mark all notifications as read for a user.
+     *
+     * @param userId the user ID
+     */
+    void markAllAsRead(Long userId);
+
+    /**
+     * Delete a notification.
+     *
+     * @param notificationId the notification ID
+     */
+    void deleteNotification(Long notificationId);
+
+    /**
+     * Delete all read notifications for a user.
+     *
+     * @param userId the user ID
+     */
+    void deleteReadNotifications(Long userId);
 }

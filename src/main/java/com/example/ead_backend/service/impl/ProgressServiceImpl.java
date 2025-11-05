@@ -49,24 +49,49 @@ public class ProgressServiceImpl implements ProgressService {
         ProgressUpdate saved = progressUpdateRepository.save(progressUpdate);
         log.debug("Progress update saved with ID: {}", saved.getId());
 
-        // Calculate overall progress percentage
+        // Calculate overall progress percentage (time-based calculation)
         int overallProgress = progressCalculationService.getLatestProgress(appointmentId);
         log.debug("Overall progress for appointment {}: {}%", appointmentId, overallProgress);
 
-        // Create notification
+        // Create base notification
         String notificationMessage = String.format(
                 "Progress updated for appointment #%d: %s (%d%%)",
                 appointmentId, request.getStage(), request.getPercentage());
 
+        NotificationType notificationType = NotificationType.PROGRESS_UPDATE;
+
+        // Check for completion (100%) - trigger completion notification
+        if (request.getPercentage() >= 100) {
+            notificationMessage = String.format(
+                    "Service completed for appointment #%d! Final stage: %s",
+                    appointmentId, request.getStage());
+            notificationType = NotificationType.COMPLETION;
+            log.info("Appointment {} marked as COMPLETED (100%)", appointmentId);
+        }
+
+        // Check for delays (time overrun)
+        // In real scenario, fetch estimated time from appointment and compare with
+        // actual time logged
+        // For now, we'll check if progress is less than expected at this time
+        // Example: If 80% time passed but only 60% progress, it's delayed
+        boolean isDelayed = checkForDelays(appointmentId, request.getPercentage());
+        if (isDelayed && request.getPercentage() < 100) {
+            notificationMessage = String.format(
+                    "DELAY ALERT: Appointment #%d is behind schedule. Current progress: %d%%",
+                    appointmentId, request.getPercentage());
+            notificationType = NotificationType.DELAY_ALERT;
+            log.warn("Appointment {} is DELAYED - progress behind schedule", appointmentId);
+        }
+
         Notification notification = Notification.builder()
                 .userId(updatedBy) // In real scenario, should notify customer
-                .type(NotificationType.PROGRESS_UPDATE)
+                .type(notificationType)
                 .message(notificationMessage)
                 .isRead(false)
                 .build();
 
         notificationRepository.save(notification);
-        log.debug("Notification created for progress update");
+        log.debug("Notification created: type={}, message={}", notificationType, notificationMessage);
 
         // Convert to response
         ProgressResponse response = progressMapper.toResponse(saved);
@@ -92,6 +117,27 @@ public class ProgressServiceImpl implements ProgressService {
 
         log.info("Progress update completed successfully for appointment {}", appointmentId);
         return response;
+    }
+
+    /**
+     * Check if appointment is delayed based on time logged vs estimated time.
+     * This is a simplified check - in production, fetch actual time data from
+     * TimeLog.
+     *
+     * @param appointmentId   the appointment ID
+     * @param currentProgress current progress percentage
+     * @return true if delayed
+     */
+    private boolean checkForDelays(Long appointmentId, int currentProgress) {
+        // TODO: In production, implement actual time comparison:
+        // 1. Fetch appointment estimated time (hours)
+        // 2. Sum all time logged from TimeLog table for this appointment
+        // 3. Calculate time progress = (logged hours / estimated hours) * 100
+        // 4. If time progress > current progress by threshold (e.g., 20%), it's delayed
+
+        // Placeholder logic: assume delayed if progress < 50% (for demo)
+        // Replace with actual time-based calculation when TimeLog data is available
+        return currentProgress < 50;
     }
 
     @Override
