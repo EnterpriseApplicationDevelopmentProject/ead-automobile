@@ -24,6 +24,7 @@ public class WebSocketNotificationService {
 
     /**
      * Broadcast a progress update to all subscribers of a specific appointment.
+     * Also broadcasts to global topic for all employees.
      *
      * @param appointmentId the appointment ID
      * @param response      the progress response
@@ -40,10 +41,14 @@ public class WebSocketNotificationService {
                 .timestamp(Timestamp.from(Instant.now()))
                 .build();
 
-        String destination = "/topic/progress." + appointmentId;
-        messagingTemplate.convertAndSend(destination, message);
+        // Broadcast to appointment-specific topic
+        String appointmentTopic = "/topic/progress." + appointmentId;
+        messagingTemplate.convertAndSend(appointmentTopic, message);
+        log.debug("Progress update broadcasted to {}", appointmentTopic);
 
-        log.debug("Progress update broadcasted to {}", destination);
+        // Broadcast to global progress updates topic for all employees
+        messagingTemplate.convertAndSend("/topic/progress-updates", message);
+        log.debug("Progress update broadcasted to global topic: /topic/progress-updates");
     }
 
     /**

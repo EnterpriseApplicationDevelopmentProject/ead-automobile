@@ -65,4 +65,48 @@ public class NotificationServiceImpl implements NotificationService {
             log.info("Notification {} marked as read", notificationId);
         });
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<NotificationDTO> getUnreadNotifications(Long userId) {
+        log.debug("Fetching unread notifications for user {}", userId);
+        List<Notification> notifications = notificationRepository
+                .findByUserIdAndIsReadFalseOrderByCreatedAtDesc(userId);
+
+        return notifications.stream()
+                .map(notificationMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void markAllAsRead(Long userId) {
+        log.info("Marking all notifications as read for user {}", userId);
+        List<Notification> notifications = notificationRepository
+                .findByUserIdAndIsReadFalseOrderByCreatedAtDesc(userId);
+
+        notifications.forEach(notification -> notification.setIsRead(true));
+        notificationRepository.saveAll(notifications);
+
+        log.info("Marked {} notifications as read for user {}", notifications.size(), userId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteNotification(Long notificationId) {
+        log.info("Deleting notification {}", notificationId);
+        notificationRepository.deleteById(notificationId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteReadNotifications(Long userId) {
+        log.info("Deleting read notifications for user {}", userId);
+        List<Notification> readNotifications = notificationRepository
+                .findByUserIdAndIsReadTrueOrderByCreatedAtDesc(userId);
+
+        notificationRepository.deleteAll(readNotifications);
+
+        log.info("Deleted {} read notifications for user {}", readNotifications.size(), userId);
+    }
 }

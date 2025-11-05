@@ -15,6 +15,16 @@ public enum NotificationType {
     STATUS_CHANGE,
 
     /**
+     * Notification for service completion (100% progress)
+     */
+    COMPLETION,
+
+    /**
+     * Alert notification for delays or time overruns
+     */
+    DELAY_ALERT,
+
+    /**
      * General notifications
      */
     GENERAL
