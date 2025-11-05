@@ -13,6 +13,7 @@ public interface TimeLogRepository extends JpaRepository<TimeLog, String> {
 
     /**
      * Get total hours logged for an appointment
+     * 
      * @param appointmentId the appointment ID (as String)
      * @return total hours logged, or null if no logs exist
      */
@@ -21,6 +22,7 @@ public interface TimeLogRepository extends JpaRepository<TimeLog, String> {
 
     /**
      * Find all time logs for an appointment
+     * 
      * @param appointmentId the appointment ID (as String)
      * @return list of time logs
      */

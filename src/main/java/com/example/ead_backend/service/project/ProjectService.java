@@ -105,23 +105,21 @@ public class ProjectService {
      * Get customer's projects
      */
     public List<ProjectResponse> getCustomerProjects(String customerId) {
-        return projectRepository.findByCustomer_CustomerId(customerId)
-                .stream()
-                .map(projectMapper::toResponse)
-                .collect(Collectors.toList());
+        return projectRepository.findByCustomer_Id(Long.valueOf(customerId))
+            .stream()
+            .map(projectMapper::toResponse)
+            .collect(Collectors.toList());
     }
-
+    
     /**
      * Get employee's assigned projects
      */
     public List<ProjectResponse> getEmployeeProjects(String employeeId) {
-        return projectRepository.findByEmployee_EmployeeId(employeeId)
-                .stream()
-                .map(projectMapper::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    /**
+        return projectRepository.findByEmployee_Id(Long.valueOf(employeeId))
+            .stream()
+            .map(projectMapper::toResponse)
+            .collect(Collectors.toList());
+    }    /**
      * Get project by ID
      */
     public ProjectResponse getProjectById(String projectId) {

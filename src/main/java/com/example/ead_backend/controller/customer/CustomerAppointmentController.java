@@ -51,7 +51,7 @@ public class CustomerAppointmentController {
      * GET /api/customer/appointments/{customerId}
      */
     @GetMapping("/{customerId}")
-    public ResponseEntity<List<AppointmentResponse>> getMyAppointments(@PathVariable String customerId) {
+    public ResponseEntity<List<AppointmentResponse>> getMyAppointments(@PathVariable Long customerId) {
         List<AppointmentResponse> appointments = appointmentService.getCustomerAppointments(customerId);
         return ResponseEntity.ok(appointments);
     }

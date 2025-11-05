@@ -21,7 +21,7 @@ public class EmployeeAppointmentController {
      * GET /api/employee/appointments/{employeeId}
      */
     @GetMapping("/{employeeId}")
-    public ResponseEntity<List<AppointmentResponse>> getMyAppointments(@PathVariable String employeeId) {
+    public ResponseEntity<List<AppointmentResponse>> getMyAppointments(@PathVariable Long employeeId) {
         List<AppointmentResponse> appointments = appointmentService.getEmployeeAppointments(employeeId);
         return ResponseEntity.ok(appointments);
     }

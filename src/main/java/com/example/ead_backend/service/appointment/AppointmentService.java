@@ -158,24 +158,22 @@ public class AppointmentService {
     /**
      * Get customer's appointments
      */
-    public List<AppointmentResponse> getCustomerAppointments(String customerId) {
-        return appointmentRepository.findByCustomer_CustomerId(customerId)
-                .stream()
-                .map(appointmentMapper::toResponse)
-                .collect(Collectors.toList());
+    public List<AppointmentResponse> getCustomerAppointments(Long customerId) {
+        return appointmentRepository.findByCustomer_Id(customerId)
+            .stream()
+            .map(appointmentMapper::toResponse)
+            .collect(Collectors.toList());
     }
-
+    
     /**
      * Get employee's appointments
      */
-    public List<AppointmentResponse> getEmployeeAppointments(String employeeId) {
-        return appointmentRepository.findByEmployee_EmployeeId(employeeId)
-                .stream()
-                .map(appointmentMapper::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    /**
+    public List<AppointmentResponse> getEmployeeAppointments(Long employeeId) {
+        return appointmentRepository.findByEmployee_Id(employeeId)
+            .stream()
+            .map(appointmentMapper::toResponse)
+            .collect(Collectors.toList());
+    }    /**
      * Get appointment by ID
      */
     public AppointmentResponse getAppointmentById(String appointmentId) {
