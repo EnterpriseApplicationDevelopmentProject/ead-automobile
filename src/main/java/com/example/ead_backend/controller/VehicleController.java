@@ -34,7 +34,7 @@ public class VehicleController {
             @RequestPart(value = "image", required = false) MultipartFile image) {
         try {
             VehicleDTO vehicleDTO = objectMapper.readValue(vehicleDTOJson, VehicleDTO.class);
-            
+
             if (image != null && !image.isEmpty()) {
                 VehicleDTO created = vehicleService.createVehicleWithImage(vehicleDTO, image);
                 return ResponseEntity.status(HttpStatus.CREATED).body(created);
@@ -49,7 +49,7 @@ public class VehicleController {
     }
 
     @GetMapping("/{id}")
-    public VehicleDTO getVehicleById(@PathVariable String id) {
+    public VehicleDTO getVehicleById(@PathVariable Long id) {
         return vehicleService.getVehicleById(id);
     }
 
@@ -64,7 +64,7 @@ public class VehicleController {
     }
 
     @PutMapping("/{id}")
-    public VehicleDTO updateVehicle(@PathVariable String id, @RequestBody VehicleDTO vehicleDTO) {
+    public VehicleDTO updateVehicle(@PathVariable Long id, @RequestBody VehicleDTO vehicleDTO) {
         return vehicleService.updateVehicle(id, vehicleDTO);
     }
 
@@ -75,7 +75,7 @@ public class VehicleController {
             @RequestPart(value = "image", required = false) MultipartFile image) {
         try {
             VehicleDTO vehicleDTO = objectMapper.readValue(vehicleDTOJson, VehicleDTO.class);
-            
+
             if (image != null && !image.isEmpty()) {
                 VehicleDTO updated = vehicleService.updateVehicleWithImage(id, vehicleDTO, image);
                 return ResponseEntity.ok(updated);

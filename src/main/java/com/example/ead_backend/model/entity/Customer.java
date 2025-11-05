@@ -30,7 +30,7 @@ public class Customer {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Vehicle> vehicles;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)

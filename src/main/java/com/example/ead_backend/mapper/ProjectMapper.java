@@ -6,28 +6,33 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProjectMapper {
-    
+
     public ProjectResponse toResponse(Project project) {
         ProjectResponse response = new ProjectResponse();
         response.setProjectId(project.getProjectId());
-        response.setCustomerName(project.getCustomer().getFirstName() + " " + 
-                                project.getCustomer().getLastName());
-        response.setCustomerId(project.getCustomer().getCustomerId());
-        
+
+        // Get customer name from User entity
+        if (project.getCustomer() != null && project.getCustomer().getUser() != null) {
+            response.setCustomerName(project.getCustomer().getUser().getFirstName() + " " +
+                    project.getCustomer().getUser().getLastName());
+            response.setCustomerId(String.valueOf(project.getCustomer().getId()));
+        }
+
         if (project.getVehicle() != null) {
             response.setVehicleMake(project.getVehicle().getMake());
             response.setVehicleModel(project.getVehicle().getModel());
             response.setVehicleLicensePlate(project.getVehicle().getLicensePlate());
         }
-        
+
         response.setServiceDescription(project.getServiceDescription());
-        
-        if (project.getEmployee() != null) {
-            response.setEmployeeName(project.getEmployee().getFirstName() + " " + 
-                                    project.getEmployee().getLastName());
-            response.setEmployeeId(project.getEmployee().getEmployeeId());
+
+        // Get employee name from User entity
+        if (project.getEmployee() != null && project.getEmployee().getUser() != null) {
+            response.setEmployeeName(project.getEmployee().getUser().getFirstName() + " " +
+                    project.getEmployee().getUser().getLastName());
+            response.setEmployeeId(String.valueOf(project.getEmployee().getId()));
         }
-        
+
         response.setStatus(project.getStatus());
         response.setAdminNotes(project.getAdminNotes());
         response.setEmployeeNotes(project.getEmployeeNotes());
@@ -36,7 +41,7 @@ public class ProjectMapper {
         response.setCreatedAt(project.getCreatedAt());
         response.setAssignedAt(project.getAssignedAt());
         response.setCompletedAt(project.getCompletedAt());
-        
+
         return response;
     }
 }

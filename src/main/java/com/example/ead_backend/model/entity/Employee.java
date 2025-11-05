@@ -21,7 +21,7 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String phone;
+    private String phoneNumber;
     private String specialization; // e.g., "Mechanic", "Electrician"
 
     @OneToOne
