@@ -30,7 +30,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public VehicleDTO createVehicle(VehicleDTO vehicleDTO) {
         // Find the customer
-        Customer customer = customerRepository.findById(vehicleDTO.getCustomerId())
+        Customer customer = customerRepository.findById(String.valueOf(vehicleDTO.getCustomerId()))
                 .orElseThrow(() -> new RuntimeException("Customer not found with id " + vehicleDTO.getCustomerId()));
 
         // Create vehicle entity
@@ -45,7 +45,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public VehicleDTO createVehicleWithImage(VehicleDTO vehicleDTO, MultipartFile image) throws IOException {
         // Find the customer
-        Customer customer = customerRepository.findById(vehicleDTO.getCustomerId())
+        Customer customer = customerRepository.findById(String.valueOf(vehicleDTO.getCustomerId()))
                 .orElseThrow(() -> new RuntimeException("Customer not found with id " + vehicleDTO.getCustomerId()));
 
         // Upload image to Cloudinary
@@ -65,7 +65,7 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public VehicleDTO getVehicleById(String id) {
+    public VehicleDTO getVehicleById(Long id) {
         Vehicle vehicle = vehicleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Vehicle not found with id " + id));
         return vehicleMapper.toDTO(vehicle);
@@ -82,7 +82,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public List<VehicleDTO> getVehiclesByCustomerId(Long customerId) {
         // Verify customer exists
-        customerRepository.findById(customerId)
+        customerRepository.findById(String.valueOf(customerId))
                 .orElseThrow(() -> new RuntimeException("Customer not found with id " + customerId));
 
         return vehicleRepository.findByCustomerId(customerId)
@@ -106,7 +106,7 @@ public class VehicleServiceImpl implements VehicleService {
 
         // If customer is being changed
         if (vehicleDTO.getCustomerId() != null && !vehicleDTO.getCustomerId().equals(existing.getCustomer().getId())) {
-            Customer newCustomer = customerRepository.findById(vehicleDTO.getCustomerId())
+            Customer newCustomer = customerRepository.findById(String.valueOf(vehicleDTO.getCustomerId()))
                     .orElseThrow(() -> new RuntimeException("Customer not found with id " + vehicleDTO.getCustomerId()));
             existing.setCustomer(newCustomer);
         }
@@ -141,7 +141,7 @@ public class VehicleServiceImpl implements VehicleService {
 
         // If customer is being changed
         if (vehicleDTO.getCustomerId() != null && !vehicleDTO.getCustomerId().equals(existing.getCustomer().getId())) {
-            Customer newCustomer = customerRepository.findById(vehicleDTO.getCustomerId())
+            Customer newCustomer = customerRepository.findById(String.valueOf(vehicleDTO.getCustomerId()))
                     .orElseThrow(() -> new RuntimeException("Customer not found with id " + vehicleDTO.getCustomerId()));
             existing.setCustomer(newCustomer);
         }

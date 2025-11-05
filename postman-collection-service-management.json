@@ -1,0 +1,266 @@
+{
+  "info": {
+    "name": "Service Management API",
+    "description": "API collection for testing service management endpoints in EAD Automobile system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Admin - Create Service (JSON)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Oil Change\",\n  \"description\": \"Complete oil change service including oil filter replacement\",\n  \"price\": 49.99,\n  \"estimatedDurationMinutes\": 30,\n  \"isActive\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/services",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "services"]
+        }
+      }
+    },
+    {
+      "name": "Admin - Create Service (with Image)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "service",
+              "value": "{\"name\":\"Brake Inspection\",\"description\":\"Comprehensive brake system inspection\",\"price\":39.99,\"estimatedDurationMinutes\":25,\"isActive\":true}",
+              "type": "text"
+            },
+            {
+              "key": "image",
+              "type": "file",
+              "src": "/path/to/your/image.jpg"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/services",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "services"]
+        }
+      }
+    },
+    {
+      "name": "Admin - Get All Services",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/services",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "services"]
+        }
+      }
+    },
+    {
+      "name": "Admin - Get Service by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/services/{{serviceId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "services", "{{serviceId}}"]
+        }
+      }
+    },
+    {
+      "name": "Admin - Get Active Services",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/services/active",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "services", "active"]
+        }
+      }
+    },
+    {
+      "name": "Admin - Update Service (JSON)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Premium Oil Change\",\n  \"description\": \"Complete premium oil change service with synthetic oil\",\n  \"price\": 69.99,\n  \"estimatedDurationMinutes\": 45,\n  \"isActive\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/services/{{serviceId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "services", "{{serviceId}}"]
+        }
+      }
+    },
+    {
+      "name": "Admin - Update Service (with Image)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "service",
+              "value": "{\"name\":\"Premium Oil Change\",\"description\":\"Updated description\",\"price\":69.99,\"estimatedDurationMinutes\":45,\"isActive\":true}",
+              "type": "text"
+            },
+            {
+              "key": "image",
+              "type": "file",
+              "src": "/path/to/new/image.jpg"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/services/{{serviceId}}/with-image",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "services", "{{serviceId}}", "with-image"]
+        }
+      }
+    },
+    {
+      "name": "Admin - Toggle Service Status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/services/{{serviceId}}/toggle-status",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "services", "{{serviceId}}", "toggle-status"]
+        }
+      }
+    },
+    {
+      "name": "Admin - Soft Delete Service",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/services/{{serviceId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "services", "{{serviceId}}"]
+        }
+      }
+    },
+    {
+      "name": "Admin - Permanently Delete Service",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/admin/services/{{serviceId}}/permanent",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "admin", "services", "{{serviceId}}", "permanent"]
+        }
+      }
+    },
+    {
+      "name": "Customer - Get All Active Services",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/customer/services",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "customer", "services"]
+        }
+      }
+    },
+    {
+      "name": "Customer - Get Service by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/customer/services/{{serviceId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "customer", "services", "{{serviceId}}"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "your_admin_jwt_token_here",
+      "type": "string"
+    },
+    {
+      "key": "serviceId",
+      "value": "service_uuid_here",
+      "type": "string"
+    }
+  ]
+}

@@ -37,7 +37,7 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     public CustomerProfileDTO getCustomerProfileByCustomerId(Long customerId) {
         log.info("Fetching customer profile for customer ID: {}", customerId);
         
-        Customer customer = customerRepository.findById(customerId)
+        Customer customer = customerRepository.findById(String.valueOf(customerId))
                 .orElseThrow(() -> new RuntimeException("Customer not found with ID: " + customerId));
         
         return mapToDTO(customer, customer.getUser());

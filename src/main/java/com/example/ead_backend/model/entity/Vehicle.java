@@ -37,10 +37,6 @@ public class Vehicle {
 
     @Column(nullable = false)
     private int year;
-    
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer owner;
 
     @Column(length = 500)
     private String imageUrl;

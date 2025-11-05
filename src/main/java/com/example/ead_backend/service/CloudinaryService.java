@@ -56,6 +56,43 @@ public class CloudinaryService {
     }
 
     /**
+     * Upload a service image to Cloudinary
+     *
+     * @param file the service image file to upload
+     * @return Map containing the upload result with url and public_id
+     * @throws IOException if upload fails
+     */
+    public Map<String, Object> uploadServiceImage(MultipartFile file) throws IOException {
+        try {
+            log.info("Uploading service image to Cloudinary: {}", file.getOriginalFilename());
+            
+            // Generate a unique public ID for the service image
+            String publicId = "services/" + UUID.randomUUID().toString();
+            
+            Map<String, Object> uploadResult = cloudinary.uploader().upload(
+                    file.getBytes(),
+                    ObjectUtils.asMap(
+                            "public_id", publicId,
+                            "folder", "ead-automobile/services",
+                            "resource_type", "image",
+                            "transformation", ObjectUtils.asMap(
+                                    "width", 600,
+                                    "height", 400,
+                                    "crop", "limit",
+                                    "quality", "auto"
+                            )
+                    )
+            );
+            
+            log.info("Service image uploaded successfully. Public ID: {}", uploadResult.get("public_id"));
+            return uploadResult;
+        } catch (IOException e) {
+            log.error("Failed to upload service image to Cloudinary: {}", e.getMessage(), e);
+            throw new IOException("Failed to upload service image: " + e.getMessage());
+        }
+    }
+
+    /**
      * Delete an image from Cloudinary
      *
      * @param publicId the public ID of the image to delete

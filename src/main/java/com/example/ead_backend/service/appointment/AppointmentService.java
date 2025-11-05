@@ -43,13 +43,13 @@ public class AppointmentService {
     @Transactional
     public AppointmentResponse createAppointment(CreateAppointmentRequest request) {
         // Validate vehicle belongs to customer
-        Vehicle vehicle = vehicleRepository.findById(request.getVehicleId())
+        Vehicle vehicle = vehicleRepository.findById(Long.parseLong(request.getVehicleId()))
             .orElseThrow(() -> new RuntimeException("Vehicle not found"));
         
         Customer customer = customerRepository.findById(request.getCustomerId())
             .orElseThrow(() -> new RuntimeException("Customer not found"));
         
-        if (!vehicle.getOwner().getCustomerId().equals(customer.getCustomerId())) {
+        if (!vehicle.getOwner().getId().equals(customer.getId())) {
             throw new RuntimeException("Vehicle does not belong to customer");
         }
         
@@ -117,12 +117,12 @@ public class AppointmentService {
         Appointment appointment = appointmentRepository.findById(appointmentId)
             .orElseThrow(() -> new RuntimeException("Appointment not found"));
         
-        Employee employee = employeeRepository.findById(request.getEmployeeId())
+        Employee employee = employeeRepository.findById(Long.parseLong(request.getEmployeeId()))
             .orElseThrow(() -> new RuntimeException("Employee not found"));
         
         // Check if employee is available at that time
         List<Appointment> employeeConflicts = appointmentRepository
-            .findEmployeeAppointmentsAtTime(employee.getEmployeeId(), appointment.getAppointmentTime());
+            .findEmployeeAppointmentsAtTime(String.valueOf(employee.getId()), appointment.getAppointmentTime());
         
         if (!employeeConflicts.isEmpty()) {
             throw new RuntimeException("Employee is not available at this time");
@@ -160,7 +160,7 @@ public class AppointmentService {
      * Get customer's appointments
      */
     public List<AppointmentResponse> getCustomerAppointments(String customerId) {
-        return appointmentRepository.findByCustomer_CustomerId(customerId)
+        return appointmentRepository.findByCustomer_Id(Long.parseLong(customerId))
             .stream()
             .map(appointmentMapper::toResponse)
             .collect(Collectors.toList());
@@ -170,7 +170,7 @@ public class AppointmentService {
      * Get employee's appointments
      */
     public List<AppointmentResponse> getEmployeeAppointments(String employeeId) {
-        return appointmentRepository.findByEmployee_EmployeeId(employeeId)
+        return appointmentRepository.findByEmployee_Id(Long.parseLong(employeeId))
             .stream()
             .map(appointmentMapper::toResponse)
             .collect(Collectors.toList());
@@ -199,10 +199,10 @@ public class AppointmentService {
      */
     public boolean validateBookingConstraints(CreateAppointmentRequest request) {
         // Check if vehicle exists and belongs to customer
-        Vehicle vehicle = vehicleRepository.findById(request.getVehicleId())
+        Vehicle vehicle = vehicleRepository.findById(Long.parseLong(request.getVehicleId()))
             .orElseThrow(() -> new RuntimeException("Vehicle not found"));
         
-        if (!vehicle.getOwner().getCustomerId().equals(request.getCustomerId())) {
+        if (!vehicle.getOwner().getId().equals(request.getCustomerId())) {
             return false;
         }
         

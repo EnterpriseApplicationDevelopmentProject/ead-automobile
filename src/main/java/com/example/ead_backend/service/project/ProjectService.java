@@ -39,10 +39,10 @@ public class ProjectService {
             .orElseThrow(() -> new RuntimeException("Customer not found"));
         
         // Validate vehicle
-        Vehicle vehicle = vehicleRepository.findById(request.getVehicleId())
+        Vehicle vehicle = vehicleRepository.findById(Long.parseLong(request.getVehicleId()))
             .orElseThrow(() -> new RuntimeException("Vehicle not found"));
         
-        if (!vehicle.getOwner().getCustomerId().equals(customer.getCustomerId())) {
+        if (!vehicle.getOwner().getId().equals(customer.getId())) {
             throw new RuntimeException("Vehicle does not belong to customer");
         }
         
@@ -66,7 +66,7 @@ public class ProjectService {
         Project project = projectRepository.findById(projectId)
             .orElseThrow(() -> new RuntimeException("Project not found"));
         
-        Employee employee = employeeRepository.findById(request.getEmployeeId())
+        Employee employee = employeeRepository.findById(Long.parseLong(request.getEmployeeId()))
             .orElseThrow(() -> new RuntimeException("Employee not found"));
         
         project.setEmployee(employee);
@@ -105,7 +105,7 @@ public class ProjectService {
      * Get customer's projects
      */
     public List<ProjectResponse> getCustomerProjects(String customerId) {
-        return projectRepository.findByCustomer_CustomerId(customerId)
+        return projectRepository.findByCustomer_Id(Long.parseLong(customerId))
             .stream()
             .map(projectMapper::toResponse)
             .collect(Collectors.toList());
@@ -115,7 +115,7 @@ public class ProjectService {
      * Get employee's assigned projects
      */
     public List<ProjectResponse> getEmployeeProjects(String employeeId) {
-        return projectRepository.findByEmployee_EmployeeId(employeeId)
+        return projectRepository.findByEmployee_Id(Long.parseLong(employeeId))
             .stream()
             .map(projectMapper::toResponse)
             .collect(Collectors.toList());
