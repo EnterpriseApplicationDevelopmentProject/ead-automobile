@@ -39,6 +39,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/password/forgot", "/api/password/verify-otp", "/api/password/reset").permitAll()
                         .requestMatchers("/api/password/change").authenticated()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/health/**").permitAll()
+                        .requestMatchers("/api/employee/**").permitAll()
 //                        .requestMatchers("/api/employee/**").hasAnyRole("EMPLOYEE", "ADMIN")
 //                        .requestMatchers("/api/customer/**").hasAnyRole("CUSTOMER", "EMPLOYEE", "ADMIN")
                         .anyRequest().authenticated())

@@ -1,21 +1,27 @@
 package com.example.ead_backend.service.impl;
 
+import com.example.ead_backend.dto.EmployeeCreateDTO;
+import com.example.ead_backend.mapper.EmployeeMapper;
 import com.example.ead_backend.model.entity.Employee;
 import com.example.ead_backend.model.entity.User;
 import com.example.ead_backend.model.enums.Role;
 import com.example.ead_backend.repository.EmployeeRepository;
 import com.example.ead_backend.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
+    private final EmployeeMapper employeeMapper;
 
     @Override
     @Transactional
@@ -30,5 +36,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee findByUserId(Long userId) {
         return employeeRepository.findByUserId(userId).orElse(null);
+    }
+
+    @Override
+    public EmployeeCreateDTO getEmployeeById(Long id) {
+        Employee employee = employeeRepository.findById(id)  
+                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+        return employeeMapper.toDTO(employee);  
+    }
+
+    @Override
+    public EmployeeCreateDTO updateEmployee(Long id, EmployeeCreateDTO dto) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+        
+        employeeMapper.updateEntityFromDTO(dto, employee);
+        
+        return employeeMapper.toDTO(employee);  
     }
 }
