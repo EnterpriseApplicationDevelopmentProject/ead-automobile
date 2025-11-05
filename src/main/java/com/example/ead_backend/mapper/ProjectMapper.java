@@ -10,9 +10,9 @@ public class ProjectMapper {
     public ProjectResponse toResponse(Project project) {
         ProjectResponse response = new ProjectResponse();
         response.setProjectId(project.getProjectId());
-        response.setCustomerName(project.getCustomer().getFirstName() + " " + 
-                                project.getCustomer().getLastName());
-        response.setCustomerId(project.getCustomer().getCustomerId());
+        response.setCustomerName(project.getCustomer().getUser().getFirstName() + " " + 
+                                project.getCustomer().getUser().getLastName());
+        response.setCustomerId(String.valueOf(project.getCustomer().getId()));
         
         if (project.getVehicle() != null) {
             response.setVehicleMake(project.getVehicle().getMake());
@@ -23,9 +23,9 @@ public class ProjectMapper {
         response.setServiceDescription(project.getServiceDescription());
         
         if (project.getEmployee() != null) {
-            response.setEmployeeName(project.getEmployee().getFirstName() + " " + 
-                                    project.getEmployee().getLastName());
-            response.setEmployeeId(project.getEmployee().getEmployeeId());
+            response.setEmployeeName(project.getEmployee().getUser().getFirstName() + " " + 
+                                    project.getEmployee().getUser().getLastName());
+            response.setEmployeeId(String.valueOf(project.getEmployee().getId()));
         }
         
         response.setStatus(project.getStatus());

@@ -11,10 +11,10 @@ import java.util.List;
 public interface ProjectRepository extends JpaRepository<Project, String> {
     
     // Find projects by customer
-    List<Project> findByCustomer_CustomerId(String customerId);
+    List<Project> findByCustomer_Id(Long customerId);
     
     // Find projects by employee
-    List<Project> findByEmployee_EmployeeId(String employeeId);
+    List<Project> findByEmployee_Id(Long employeeId);
     
     // Find projects by status
     List<Project> findByStatus(ProjectStatus status);

@@ -14,10 +14,10 @@ import java.util.List;
 public interface AppointmentRepository extends JpaRepository<Appointment, String> {
     
     // Find appointments by customer
-    List<Appointment> findByCustomer_CustomerId(String customerId);
+    List<Appointment> findByCustomer_Id(Long customerId);
     
     // Find appointments by employee
-    List<Appointment> findByEmployee_EmployeeId(String employeeId);
+    List<Appointment> findByEmployee_Id(Long employeeId);
     
     // Find appointments by status
     List<Appointment> findByStatus(AppointmentStatus status);
@@ -33,9 +33,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, String
     List<Appointment> findConflictingAppointments(@Param("appointmentTime") LocalDateTime appointmentTime);
     
     // Find employee appointments at specific time
-    @Query("SELECT a FROM Appointment a WHERE a.employee.employeeId = :employeeId " +
+    @Query("SELECT a FROM Appointment a WHERE a.employee.id = :employeeId " +
            "AND a.appointmentTime = :appointmentTime " +
            "AND a.status IN ('CONFIRMED', 'IN_PROGRESS')")
-    List<Appointment> findEmployeeAppointmentsAtTime(@Param("employeeId") String employeeId,
+    List<Appointment> findEmployeeAppointmentsAtTime(@Param("employeeId") Long employeeId,
                                                       @Param("appointmentTime") LocalDateTime appointmentTime);
 }

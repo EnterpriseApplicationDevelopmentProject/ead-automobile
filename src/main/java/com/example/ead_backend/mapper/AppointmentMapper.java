@@ -10,9 +10,9 @@ public class AppointmentMapper {
     public AppointmentResponse toResponse(Appointment appointment) {
         AppointmentResponse response = new AppointmentResponse();
         response.setAppointmentId(appointment.getAppointmentId());
-        response.setCustomerName(appointment.getCustomer().getFirstName() + " " + 
-                                appointment.getCustomer().getLastName());
-        response.setCustomerId(appointment.getCustomer().getCustomerId());
+        response.setCustomerName(appointment.getCustomer().getUser().getFirstName() + " " + 
+                                appointment.getCustomer().getUser().getLastName());
+        response.setCustomerId(String.valueOf(appointment.getCustomer().getId()));
         
         if (appointment.getVehicle() != null) {
             response.setVehicleMake(appointment.getVehicle().getMake());
@@ -21,9 +21,9 @@ public class AppointmentMapper {
         }
         
         if (appointment.getEmployee() != null) {
-            response.setEmployeeName(appointment.getEmployee().getFirstName() + " " + 
-                                    appointment.getEmployee().getLastName());
-            response.setEmployeeId(appointment.getEmployee().getEmployeeId());
+            response.setEmployeeName(appointment.getEmployee().getUser().getFirstName() + " " + 
+                                    appointment.getEmployee().getUser().getLastName());
+            response.setEmployeeId(String.valueOf(appointment.getEmployee().getId()));
         }
         
         response.setAppointmentTime(appointment.getAppointmentTime());
