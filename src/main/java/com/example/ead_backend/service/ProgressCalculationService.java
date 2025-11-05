@@ -77,7 +77,7 @@ public class ProgressCalculationService {
     public int calculateTimeBasedProgress(Long appointmentId) {
         try {
             // 1. Get total time logged
-            Double totalLoggedHours = timeLogRepository.getTotalHoursLogged(appointmentId);
+            Double totalLoggedHours = timeLogRepository.getTotalHoursLogged(String.valueOf(appointmentId));
 
             if (totalLoggedHours == null || totalLoggedHours == 0) {
                 log.debug("No time logged yet for appointment {}", appointmentId);
@@ -85,7 +85,7 @@ public class ProgressCalculationService {
             }
 
             // 2. Get appointment estimated hours
-            Appointment appointment = appointmentRepository.findById(appointmentId)
+            Appointment appointment = appointmentRepository.findById(String.valueOf(appointmentId))
                     .orElse(null);
 
             if (appointment == null) {
@@ -93,12 +93,15 @@ public class ProgressCalculationService {
                 return 0;
             }
 
-            Double estimatedHours = appointment.getEstimatedHours();
+            Integer estimatedDurationMinutes = appointment.getEstimatedDurationMinutes();
 
-            if (estimatedHours == null || estimatedHours <= 0) {
-                log.debug("No estimated hours set for appointment {}", appointmentId);
+            if (estimatedDurationMinutes == null || estimatedDurationMinutes <= 0) {
+                log.debug("No estimated duration set for appointment {}", appointmentId);
                 return 0;
             }
+
+            // Convert minutes to hours
+            Double estimatedHours = estimatedDurationMinutes / 60.0;
 
             // 3. Calculate percentage: (logged / estimated) * 100
             int percentage = (int) Math.round((totalLoggedHours / estimatedHours) * 100);
