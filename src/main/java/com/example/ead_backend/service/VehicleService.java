@@ -7,11 +7,11 @@ import com.example.ead_backend.dto.VehicleDTO;
 public interface VehicleService {
     VehicleDTO createVehicle(VehicleDTO vehicleDTO);
 
-    VehicleDTO getVehicleById(Long id);
+    VehicleDTO getVehicleById(String id);
 
     List<VehicleDTO> getAllVehicles();
 
-    VehicleDTO updateVehicle(Long id, VehicleDTO vehicleDTO);
+    VehicleDTO updateVehicle(String id, VehicleDTO vehicleDTO);
 
-    void deleteVehicle(Long id);
+    void deleteVehicle(String id);
 }

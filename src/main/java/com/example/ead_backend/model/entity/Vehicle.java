@@ -14,13 +14,18 @@ import java.time.LocalDate;
 public class Vehicle {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     private String model;
+    private String make;
     private String color;
     private String vin;
     private LocalDate registrationDate;
     private String licensePlate;
     private int year;
+    
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer owner;
 }

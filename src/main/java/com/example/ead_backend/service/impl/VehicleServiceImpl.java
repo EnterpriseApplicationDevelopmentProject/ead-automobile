@@ -27,7 +27,7 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public VehicleDTO getVehicleById(Long id) {
+    public VehicleDTO getVehicleById(String id) {
         Vehicle vehicle = vehicleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Vehicle not found with id " + id));
         return vehicleMapper.toDTO(vehicle);
@@ -42,7 +42,7 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public VehicleDTO updateVehicle(Long id, VehicleDTO vehicleDTO) {
+    public VehicleDTO updateVehicle(String id, VehicleDTO vehicleDTO) {
         Vehicle existing = vehicleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Vehicle not found with id " + id));
 
@@ -57,7 +57,7 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public void deleteVehicle(Long id) {
+    public void deleteVehicle(String id) {
         vehicleRepository.deleteById(id);
     }
 }
