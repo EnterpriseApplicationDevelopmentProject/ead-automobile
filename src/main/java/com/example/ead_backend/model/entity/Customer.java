@@ -14,28 +14,33 @@ import java.util.List;
 @Table(name = "customers")
 @Data
 public class Customer {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String customerId;
-    
-    private String firstName;
-    private String lastName;
-    
-    @Column(unique = true, nullable = false)
-    private String email;
-    
-    private String password;
-    private String phone;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    private User user;
+
+    @Column(nullable = false)
+    private String phoneNumber;
+
     private String address;
-    
+
+    private LocalDateTime createdAt = LocalDateTime.now();
+
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Vehicle> vehicles;
-    
+
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Appointment> appointments;
-    
+
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Project> projects;
-    
-    private LocalDateTime createdAt = LocalDateTime.now();
+
+    public Customer(User user, String phoneNumber) {
+        this.user = user;
+        this.phoneNumber = phoneNumber;
+    }
 }

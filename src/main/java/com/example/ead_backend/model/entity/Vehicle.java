@@ -17,15 +17,34 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
+    @Column(nullable = false)
     private String model;
     private String make;
+
+    @Column(nullable = false)
     private String color;
+
     private String vin;
+
     private LocalDate registrationDate;
+
+    @Column(nullable = false)
     private String licensePlate;
+
+    @Column(nullable = false)
     private int year;
     
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer owner;
+
+    @Column(length = 500)
+    private String imageUrl;
+
+    @Column(length = 255)
+    private String imagePublicId;
 }
