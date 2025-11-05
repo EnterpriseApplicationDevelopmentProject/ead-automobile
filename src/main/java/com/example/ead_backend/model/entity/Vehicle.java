@@ -14,8 +14,8 @@ import java.time.LocalDate;
 public class Vehicle {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
@@ -23,6 +23,7 @@ public class Vehicle {
 
     @Column(nullable = false)
     private String model;
+    private String make;
 
     @Column(nullable = false)
     private String color;
@@ -36,6 +37,10 @@ public class Vehicle {
 
     @Column(nullable = false)
     private int year;
+    
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer owner;
 
     @Column(length = 500)
     private String imageUrl;
