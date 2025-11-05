@@ -11,10 +11,10 @@ import com.example.ead_backend.model.entity.Vehicle;
 public interface VehicleMapper {
     VehicleMapper INSTANCE = Mappers.getMapper(VehicleMapper.class);
 
-    @Mapping(source = "customer.id", target = "customerId")
+    @Mapping(source = "owner.id", target = "customerId")
     VehicleDTO toDTO(Vehicle vehicle);
 
-    @Mapping(target = "customer", ignore = true)
+    @Mapping(target = "owner", ignore = true)
     @Mapping(target = "imagePublicId", ignore = true)
     Vehicle toEntity(VehicleDTO dto);
 }

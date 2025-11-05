@@ -49,7 +49,7 @@ public class VehicleController {
     }
 
     @GetMapping("/{id}")
-    public VehicleDTO getVehicleById(@PathVariable String id) {
+    public VehicleDTO getVehicleById(@PathVariable Long id) {
         return vehicleService.getVehicleById(id);
     }
 
@@ -64,7 +64,7 @@ public class VehicleController {
     }
 
     @PutMapping("/{id}")
-    public VehicleDTO updateVehicle(@PathVariable String id, @RequestBody VehicleDTO vehicleDTO) {
+    public VehicleDTO updateVehicle(@PathVariable Long id, @RequestBody VehicleDTO vehicleDTO) {
         return vehicleService.updateVehicle(id, vehicleDTO);
     }
 

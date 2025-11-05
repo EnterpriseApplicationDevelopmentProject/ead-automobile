@@ -19,7 +19,7 @@ public class Vehicle {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    private Customer owner;
 
     @Column(nullable = false)
     private String model;
@@ -37,10 +37,6 @@ public class Vehicle {
 
     @Column(nullable = false)
     private int year;
-    
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer owner;
 
     @Column(length = 500)
     private String imageUrl;
