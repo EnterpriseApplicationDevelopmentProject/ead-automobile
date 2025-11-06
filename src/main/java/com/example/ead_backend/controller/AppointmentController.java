@@ -8,7 +8,9 @@ import com.example.ead_backend.dto.AppointmentDTO;
 import com.example.ead_backend.service.AppointmentService;
 
 import java.util.List;
+import java.util.Map;
 import java.security.Principal;
+import java.time.LocalDate;
 
 @RestController
 @Slf4j
@@ -57,6 +59,17 @@ public class AppointmentController {
         
         // Otherwise return all appointments (e.g., for admin users)
         return appointmentService.getAllAppointments();
+    }
+
+    // Availability: return object with 'booked' (HH:mm list) for a given date (YYYY-MM-DD)
+    @GetMapping("/availability")
+    public Map<String, Object> getAvailability(@RequestParam("date") String dateStr) {
+        LocalDate date = LocalDate.parse(dateStr);
+        List<String> booked = appointmentService.getBookedStartTimes(date);
+        return Map.of(
+            "date", dateStr,
+            "booked", booked
+        );
     }
 
     @PutMapping("/{id}")
