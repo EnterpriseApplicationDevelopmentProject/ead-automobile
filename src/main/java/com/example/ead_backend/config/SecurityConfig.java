@@ -42,7 +42,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/", "/error").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
+
                         .requestMatchers("/api/files/**").permitAll() // Allow public access to uploaded files
+
+                        // Allow public access to chatbot endpoints
+                        .requestMatchers("/api/chat/**").permitAll()
+
                         // Allow public access only to appointment availability endpoint
                         .requestMatchers("/api/appointments/availability").permitAll()
                         // All other appointment endpoints require authentication
@@ -79,11 +84,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:3001"));
+        // Allow all origins for development
+        config.setAllowedOriginPatterns(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With", "X-User-Id"));
+        config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
+        config.setMaxAge(3600L); // Cache preflight response for 1 hour
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
