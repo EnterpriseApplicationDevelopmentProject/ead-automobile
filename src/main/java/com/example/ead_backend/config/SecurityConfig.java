@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/", "/error").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/files/**").permitAll() // Allow public access to uploaded files
                         // Allow public access only to appointment availability endpoint
                         .requestMatchers("/api/appointments/availability").permitAll()
                         // All other appointment endpoints require authentication

@@ -6,7 +6,7 @@ import com.example.ead_backend.model.entity.Customer;
 import com.example.ead_backend.model.entity.User;
 import com.example.ead_backend.repository.CustomerRepository;
 import com.example.ead_backend.repository.UserRepo;
-import com.example.ead_backend.service.CloudinaryService;
+import com.example.ead_backend.service.LocalFileStorageService;
 import com.example.ead_backend.service.CustomerProfileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     private final CustomerRepository customerRepository;
     private final UserRepo userRepository;
-    private final CloudinaryService cloudinaryService;
+    private final LocalFileStorageService fileStorageService;
 
     @Override
     public CustomerProfileDTO getCustomerProfileByUserId(Long userId) {
@@ -104,11 +104,11 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
             // Delete old image if exists
             if (customer.getProfileImagePublicId() != null && !customer.getProfileImagePublicId().isEmpty()) {
                 log.info("Deleting old profile image: {}", customer.getProfileImagePublicId());
-                cloudinaryService.deleteImage(customer.getProfileImagePublicId());
+                fileStorageService.deleteImage(customer.getProfileImagePublicId());
             }
             
-            // Upload new image to Cloudinary with custom folder for customers
-            Map<String, Object> uploadResult = cloudinaryService.uploadImage(imageFile, "customers");
+            // Upload new image to local storage with custom folder for customers
+            Map<String, Object> uploadResult = fileStorageService.uploadImage(imageFile, "customers");
             
             // Extract URL and public ID from upload result
             String imageUrl = (String) uploadResult.get("secure_url");
@@ -140,9 +140,9 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
             Customer customer = customerRepository.findByUserId(userId)
                     .orElseThrow(() -> new RuntimeException("Customer not found for user ID: " + userId));
             
-            // Delete image from Cloudinary if exists
+            // Delete image from local storage if exists
             if (customer.getProfileImagePublicId() != null && !customer.getProfileImagePublicId().isEmpty()) {
-                cloudinaryService.deleteImage(customer.getProfileImagePublicId());
+                fileStorageService.deleteImage(customer.getProfileImagePublicId());
             }
             
             // Clear image fields

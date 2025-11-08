@@ -26,10 +26,10 @@ public class Customer {
     private String phoneNumber;
 
     @Column(length = 500)
-    private String profileImageUrl; // Cloudinary image URL
+    private String profileImageUrl; // Local storage image URL
 
     @Column(length = 255)
-    private String profileImagePublicId; // Cloudinary public ID for deletion
+    private String profileImagePublicId; // File path for local storage (for deletion)
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vehicle> vehicles;
