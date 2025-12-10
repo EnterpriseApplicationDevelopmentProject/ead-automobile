@@ -13,18 +13,18 @@ public interface ProgressService {
     /**
      * Create or update progress for an appointment.
      *
-     * @param appointmentId the appointment ID (UUID string)
-     * @param request       the progress update request
-     * @param updatedBy     the ID of the user making the update
-     * @return the created/updated progress response
+     * @param appointmentId 
+     * @param request       
+     * @param updatedBy     
+     * @return 
      */
     ProgressResponse createOrUpdateProgress(String appointmentId, ProgressUpdateRequest request, Long updatedBy);
 
     /**
      * Get all progress updates for an appointment.
      *
-     * @param appointmentId the appointment ID (UUID string)
-     * @return list of progress responses
+     * @param appointmentId 
+     * @return l
      */
     List<ProgressResponse> getProgressForAppointment(String appointmentId);
 
@@ -32,8 +32,8 @@ public interface ProgressService {
      * Calculate the overall progress percentage for an appointment.
      * Uses ProgressCalculationService for computation.
      *
-     * @param appointmentId the appointment ID (UUID string)
-     * @return the calculated progress percentage
+     * @param appointmentId 
+     * @return 
      */
     int calculateProgressPercentage(String appointmentId);
 }
